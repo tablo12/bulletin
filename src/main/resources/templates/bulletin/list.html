@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+    <h1 class="mt-4">자유게시판
+        <span>
+            <a th:href="@{/bulletin/register}">
+                <button type="button" class="btn btn-outline-primary">등록</button>
+            </a>
+        </span>
+    </h1>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">번호</th>
+        <th scope="col">제목</th>
+        <th scope="col">등록일자</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr th:each="dto : ${result.dtoList}" >
+        <th scope="row">
+            <a th:href="@{/bulletin/read(bno = ${dto.bno}, page = ${result.page})}">[[${dto.bno}]]</a>
+        </th>
+        <td>[[${dto.title}]]</td>
+        <td>[[${dto.writer}]]</td>
+        <td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+    </tr>
+
+    </tbody>
+
+</table>
+
+<ul class="pagination h-100 justify-content-center align-items-center">
+
+    <li class="page-item" th:if="${result.prev}">
+        <a class="page-link" th:href="@{/bulletin/list(page = ${result.start -1})}" tabindex="-1">Previous</a>
+    </li>
+
+    <li th:class="'page-item' + ${result.page == page? 'active' : ''}" th:each="page : ${result.pageList}">
+        <a class="page-link" th:href="@{/bulletin/list(page = ${page})}">[[${page}]]</a>
+    </li>
+
+    <li class="page-item" th:if="${result.next}">
+        <a class="page-link" th:href="@{/bulletin/list(page = ${result.end + 1})}">Next</a>
+    </li>
+</ul>
+
+    <!--<div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">등록 확인</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-boby">
+                    <p>게시물을 등록하시겠습니까?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary">등록하기</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <!--<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+
+<script th:inline="javascript">
+
+    var msg = [[${msg}]];
+
+    console.log(msg);
+
+    if(msg) {
+        $(".modal").modal();
+    }
+
+</script>-->
+
+
+</html>
